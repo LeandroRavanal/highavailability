@@ -1,8 +1,8 @@
 ## High Availability
 
-Hoy día tener un esquema de alta disponibilidad en nuestros servicios es esencial. Pensemos en una applicación 24x7, Qué pasaría si se cae un servidor a altas horas de la noche? O, si necesitamos realizar una actualización? Sería óptimo que otra instancia comience a responder los pedidos sin necesidad de nuestra intervención.
+Hoy día tener un esquema de alta disponibilidad en nuestros servicios es esencial. Pensemos en una aplicación 24x7, Qué pasaría si se cae un servidor a altas horas de la noche? O, si necesitamos realizar una actualización? Sería óptimo que otra instancia comience a responder los pedidos sin necesidad de nuestra intervención.
 
-Para permitir un crecimiento horizontal, desde un punto de vista arquitectónico, nuestros servicios deberían estar detrás de un balanceador de carga y cómo primer punto de alta disponibildad, deberíamos tener dos balanceadores en esquema activo/pasivo, para que si el activo deja de estar disponible, el pasivo comience a responder los pedidos en estado activo.
+Para permitir un crecimiento horizontal, desde un punto de vista arquitectónico, nuestros servicios deberían estar detrás de un balanceador de carga y cómo primer punto de alta disponibilidad, deberíamos tener dos balanceadores en esquema activo/pasivo, para que si el activo deja de estar disponible, el pasivo comience a responder los pedidos en estado activo.
 
 Hay varios ejemplos en Internet con esta configuración, pero no encontré ninguno usando Apache2 & Keepalived. La idea de este ejercicio es crear una imagen con Apache2 para realizar el balanceo de carga como proxy reverso y Keepalived para administrar la IP virtual de entrada, y por tanto, el estado activo/pasivo de los contenedores.
 
