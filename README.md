@@ -38,13 +38,10 @@ route add 192.168.1.1 mask 255.255.255.255 10.0.75.2 -p
 Finalmente si ingresamos a http://192.168.1.1 vamos a visualizar la página por defecto de Apache2 y si nos ponemos a jugar con los contenedores, bajando y subiendo de a uno, podemos probar que la página está disponible en todo momento. 
 
 
-### Próximos pasos
+### Docker Compose
 
-Lo mostrado aquí es sólo un punto de partida, los siguientes pasos serían: escribir el docker compose, configurar el apache2 como balanceador, etc y con tiempo, lo estaré realizando.   
+Los pasos asociados a la creación de la red, imagen y contenedores los ensamblé en un compose usando la versión 2.x.
 
 ### Fuente
 
-Dado que mi conocimiento de Docker & ShellScript es básico usé como base el gran proyecto https://github.com/osixia/docker-keepalived
-
-
-Row, row, row your boat gently down the stream merrily, merrily, merrily, merrily life is but a dream.
+El ejercicio actual está basado en el proyecto https://github.com/osixia/docker-keepalived usando Docker & ShellScript.

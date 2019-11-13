@@ -1,0 +1,49 @@
+version: "2.4"
+services:
+  apache2_keepalived_1:
+    image: ha_apache2_keepalived
+    container_name: apache2_keepalived_1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      KEEPALIVED_VIRTUAL_IPS: "#PYTHON2BASH:['192.168.1.1']"
+      KEEPALIVED_UNICAST_PEERS: "#PYTHON2BASH:['192.168.1.10', '192.168.1.11']"
+    cap_add:
+      - NET_ADMIN
+      - NET_BROADCAST
+      - NET_RAW            
+    networks:
+      ha-network:
+        ipv4_address: 192.168.1.10      
+  apache2_keepalived_2:
+    image: ha_apache2_keepalived
+    container_name: apache2_keepalived_2
+    environment:
+      KEEPALIVED_VIRTUAL_IPS: "#PYTHON2BASH:['192.168.1.1']"
+      KEEPALIVED_UNICAST_PEERS: "#PYTHON2BASH:['192.168.1.10', '192.168.1.11']"
+    cap_add:
+      - NET_ADMIN
+      - NET_BROADCAST
+      - NET_RAW            
+    networks:
+      ha-network:
+        ipv4_address: 192.168.1.11
+networks:
+  ha-network:
+    name: ha-network 
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.1.0/24
+          ip_range: 192.168.1.0/24
+          gateway: 192.168.1.254
+
+# (11/19) Actualmente la versión 3.7 no permite asignar ip-range y gateway en la net.
+# Sugieren crear la net previamente, por afuera del compose.
+#
+#version: "3.7"
+#networks:
+#  ha-network:
+#    external:
+#      name: ha-network        
