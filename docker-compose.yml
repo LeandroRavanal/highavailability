@@ -1,12 +1,30 @@
 version: "2.4"
 services:
+  app_service_1:
+    image: app_service
+    container_name: app_service_1
+    build:
+      context: .
+      dockerfile: dockerfiles/app_service/Dockerfile
+      args:
+        JAR_FILE: target/highavailability-0.0.1-SNAPSHOT.jar
+    networks:
+      ha-network:
+        ipv4_address: 192.168.1.20
+  app_service_2:
+    image: app_service
+    container_name: app_service_2
+    networks:
+      ha-network:
+        ipv4_address: 192.168.1.21                     
   apache2_keepalived_1:
-    image: ha_apache2_keepalived
+    image: apache2_keepalived
     container_name: apache2_keepalived_1
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: dockerfiles/apache2_keepalived/Dockerfile
     environment:
+      APACHE2_BALANCER_MEMBER_IPS: "#PYTHON2BASH:['192.168.1.20', '192.168.1.21']"
       KEEPALIVED_VIRTUAL_IPS: "#PYTHON2BASH:['192.168.1.1']"
       KEEPALIVED_UNICAST_PEERS: "#PYTHON2BASH:['192.168.1.10', '192.168.1.11']"
     cap_add:
@@ -17,9 +35,10 @@ services:
       ha-network:
         ipv4_address: 192.168.1.10      
   apache2_keepalived_2:
-    image: ha_apache2_keepalived
+    image: apache2_keepalived
     container_name: apache2_keepalived_2
     environment:
+      APACHE2_BALANCER_MEMBER_IPS: "#PYTHON2BASH:['192.168.1.20', '192.168.1.21']"
       KEEPALIVED_VIRTUAL_IPS: "#PYTHON2BASH:['192.168.1.1']"
       KEEPALIVED_UNICAST_PEERS: "#PYTHON2BASH:['192.168.1.10', '192.168.1.11']"
     cap_add:
